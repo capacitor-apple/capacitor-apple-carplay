@@ -15,4 +15,15 @@ public class CapacitorCarplayPlugin: CAPPlugin {
             "value": implementation.echo(value)
         ])
     }
+
+    @objc func displayAlert(_ call: CAPPluginCall) {
+    guard let message = call.getString("message") else {
+        call.reject("message must be provided")
+        return
+    }
+    let result = self.carplay.displayAlert(message)
+    call.success([
+        "result": result
+    ])
+}
 }
