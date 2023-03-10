@@ -1,13 +1,15 @@
 import Foundation
 import Capacitor
 
-/**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
- */
 @objc(CapacitorCarplayPlugin)
 public class CapacitorCarplayPlugin: CAPPlugin {
     private let implementation = CapacitorCarplay()
+    private var carplay: CapacitorCarplayProtocol?
+
+    public override func load() {
+        self.carplay = self.implementation
+        self.implementation.setCarplay(self)
+    }
 
     @objc func echo(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""
@@ -17,13 +19,11 @@ public class CapacitorCarplayPlugin: CAPPlugin {
     }
 
     @objc func displayAlert(_ call: CAPPluginCall) {
-    guard let message = call.getString("message") else {
-        call.reject("message must be provided")
-        return
+        guard let message = call.getString("message") else {
+            call.reject("message must be provided")
+            return
+        }
+        self.carplay?.displayAlert(message)
+        call.success()
     }
-    let result = self.carplay.displayAlert(message)
-    call.success([
-        "result": result
-    ])
-}
 }
