@@ -2,7 +2,7 @@ import Foundation
 import Capacitor
 
 @objc(CapacitorCarplayPlugin)
-public class CapacitorCarplayPlugin: CAPPlugin {
+public class CapacitorCarplayPlugin: CAPPlugin, CapacitorCarplayProtocol {
     private let implementation = CapacitorCarplay()
     private var carplay: CapacitorCarplayProtocol?
 
@@ -18,12 +18,7 @@ public class CapacitorCarplayPlugin: CAPPlugin {
         ])
     }
 
-    @objc func displayAlert(_ call: CAPPluginCall) {
-        guard let message = call.getString("message") else {
-            call.reject("message must be provided")
-            return
-        }
+    @objc public func displayAlert(_ message: String) {
         self.carplay?.displayAlert(message)
-        call.success()
     }
 }

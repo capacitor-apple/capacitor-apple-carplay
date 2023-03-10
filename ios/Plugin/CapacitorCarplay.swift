@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public class CapacitorCarplay: NSObject {
+@objc public class CapacitorCarplay: NSObject, CapacitorCarplayProtocol {
     private var carplay: CapacitorCarplayProtocol?
     
     @objc public func setCarplay(_ carplay: CapacitorCarplayProtocol?) {
